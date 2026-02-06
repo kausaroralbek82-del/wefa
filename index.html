@@ -1,0 +1,133 @@
+<<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense List</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial;
+        background: #ccc;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+      .container {
+        background: #fff;
+        padding: 20px;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 6px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 20px;
+      }
+      input,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+      }
+      button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .expense-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background: #f4f4f4;
+        margin-top: 8px;
+        border-radius: 5px;
+      }
+      .delete {
+        background: #dc3545;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      .total {
+        margin-top: 15px;
+        font-weight: bold;
+        text-align: right;
+      }
+      .empty {
+        text-align: center;
+        color: #999;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Expense List</h1>
+      <p class="subtitle">Add what you spent</p>
+
+      <input id="name" placeholder="Expense name" />
+      <input id="amount" type="number" placeholder="Amount" />
+      <button id="add">Add</button>
+
+      <div id="list"></div>
+      <div class="total">Total: ₸ <span id="total">0</span></div>
+      <p class="empty" id="empty">No expenses yet</p>
+    </div>
+
+    <script>
+      const nameInput = document.getElementById("name");
+      const amountInput = document.getElementById("amount");
+      const list = document.getElementById("list");
+      const totalEl = document.getElementById("total");
+      const empty = document.getElementById("empty");
+
+      let expenses = [];
+
+      document.getElementById("add").onclick = () => {
+        const name = nameInput.value.trim();
+        const amount = parseFloat(amountInput.value);
+
+        if (!name || isNaN(amount)) return;
+
+        expenses.push({ id: Date.now(), name, amount });
+        nameInput.value = "";
+        amountInput.value = "";
+        render();
+      };
+
+      function render() {
+        list.innerHTML = "";
+        let total = 0;
+
+        expenses.forEach((e) => {
+          total += e.amount;
+          list.innerHTML += `
+        <div class="expense-item">
+          <span>${e.name} — ${e.amount} ₸</span>
+          <button class="delete" onclick="remove(${e.id})">✖</button>
+         
+        </div>`;
+        delete
+        });
+
+        totalEl.textContent = total;
+        empty.style.display = expenses.length ? "none" : "block";
+      }
+
+      function remove(id) {
+        expenses = expenses.filter((e) => e.id !== id);
+        render();
+      }
+    </script>
+  </body>
+</html>
